@@ -22,13 +22,40 @@
   <body>
     <h1>Todo App</h1>
 
-    <input
-      id="input-todo"
-      class="form-control"
-      type="text"
-      placeholder="Input your todo here"
-    />
-    <button type="button" class="btn btn-success">Add</button>
+    <div>
+      <button id="displayTodoButton" onclick="handlers.displayTodo()">
+        Display Todos
+      </button>
+      <button id="toggleAllButton" onclick="handlers.toggleAll()">
+        Toggle All
+      </button>
+    </div>
+
+    <div>
+      <input id="addTodoText" type="text" placeholder="Input Your Todo Here" />
+      <button id="addTodo" type="submit" onclick="handlers.addTodo()">
+        Add
+      </button>
+    </div>
+
+    <div>
+      <input
+        id="inputTodoId"
+        type="number"
+        placeholder="Input todo Id number here"
+      />
+      <input
+        id="inputNewTodo"
+        type="text"
+        placeholder="Input your new todo here"
+      />
+      <button id="editTodo" onclick="handlers.editTodo()">Edit Todo</button>
+    </div>
+
+    <div>
+      <input id="inputDeleteTodoId" type="number" />
+      <button id="deleteTodo" onclick="handlers.deleteTodo()">Delete</button>
+    </div>
 
     <script src="index.js"></script>
     <!-- Optional JavaScript -->
