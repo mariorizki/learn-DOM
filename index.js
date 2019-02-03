@@ -3,17 +3,14 @@ let nextId = 0;
 
 const todoList = {
   displayTodo: () => {
-    if (todos.length === 0) {
-      console.log('Your todo list is empty!');
-    } else {
-      todos.forEach(todo => {
-        if (todo.complete === true) {
-          console.log(`${todo.todoText} (X)`);
-        } else {
-          console.log(`${todo.todoText} ()`);
-        }
-      });
-    }
+    let todosUl = document.querySelector('ul');
+    todosUl.innerHTML = '';
+
+    todos.forEach(todo => {
+      let todoLi = document.createElement('li');
+      todoLi.textContent = `ID: ${todo.id} - ${todo.todoText}`;
+      todosUl.appendChild(todoLi);
+    });
   },
 
   addTodo: todoText => {
@@ -77,12 +74,9 @@ const todoList = {
 };
 
 const handlers = {
-  displayTodo: () => {
-    todoList.displayTodo();
-  },
-
   toggleAll: () => {
     todoList.toggleAll();
+    todoList.displayTodo();
   },
 
   addTodo: () => {
@@ -90,6 +84,7 @@ const handlers = {
     todoList.addTodo(addTodoText.value);
 
     addTodoText.value = '';
+    todoList.displayTodo();
   },
 
   editTodo: () => {
@@ -99,6 +94,7 @@ const handlers = {
 
     inputTodoId.value = '';
     inputNewTodo = '';
+    todoList.displayTodo();
   },
 
   deleteTodo: () => {
@@ -106,5 +102,6 @@ const handlers = {
     todoList.deleteTodo(inputDeleteTodoId.valueAsNumber);
 
     inputDeleteTodoId = '';
+    todoList.displayTodo();
   }
 };
