@@ -4,7 +4,7 @@ let nextId = 0;
 const todoList = {
   displayTodo: () => {
     if (todos.length === 0) {
-      console.log('Your todo is empty!');
+      console.log('Your todo list is empty!');
     } else {
       todos.forEach(todo => {
         if (todo.complete === true) {
