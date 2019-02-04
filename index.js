@@ -41,6 +41,7 @@ const todoList = {
     });
   },
 
+  // Not Implemented on DOM yet
   toggleTodo: idNumber => {
     const toggleStatus = todos.map(todo => {
       if (todo.id === idNumber) {
@@ -51,6 +52,7 @@ const todoList = {
     });
   },
 
+  // Not Implemented on DOM yet
   toggleAll: () => {
     const totalTodo = todos.length;
     let totalCompleteTodo = 0;
