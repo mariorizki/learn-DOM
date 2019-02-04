@@ -15,46 +15,53 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="index.css" />
 
     <title>Learn DOM</title>
   </head>
 
   <body>
-    <h1>Todo App</h1>
+    <div class="container">
+      <h1>Todo App</h1>
 
-    <div>
-      <button id="toggleAllButton" onclick="handlers.toggleAll()">
-        Toggle All
-      </button>
+      <div>
+        <button id="toggleAllButton" onclick="handlers.toggleAll()">
+          Toggle All
+        </button>
+      </div>
+
+      <form onsubmit="handlers.addTodo()">
+        <input
+          id="addTodoText"
+          type="text"
+          placeholder="Input Your Todo Here"
+        />
+        <button id="addTodo" type="submit">
+          Add
+        </button>
+      </form>
+
+      <div>
+        <input
+          id="inputTodoId"
+          type="number"
+          placeholder="Input todo Id number here"
+        />
+        <input
+          id="inputNewTodo"
+          type="text"
+          placeholder="Input your new todo here"
+        />
+        <button id="editTodo" onclick="handlers.editTodo()">Edit Todo</button>
+      </div>
+
+      <div>
+        <input id="inputDeleteTodoId" type="number" />
+        <button id="deleteTodo" onclick="handlers.deleteTodo()">Delete</button>
+      </div>
+
+      <ul></ul>
     </div>
-
-    <div>
-      <input id="addTodoText" type="text" placeholder="Input Your Todo Here" />
-      <button id="addTodo" type="submit" onclick="handlers.addTodo()">
-        Add
-      </button>
-    </div>
-
-    <div>
-      <input
-        id="inputTodoId"
-        type="number"
-        placeholder="Input todo Id number here"
-      />
-      <input
-        id="inputNewTodo"
-        type="text"
-        placeholder="Input your new todo here"
-      />
-      <button id="editTodo" onclick="handlers.editTodo()">Edit Todo</button>
-    </div>
-
-    <div>
-      <input id="inputDeleteTodoId" type="number" />
-      <button id="deleteTodo" onclick="handlers.deleteTodo()">Delete</button>
-    </div>
-
-    <ul></ul>
 
     <script src="index.js"></script>
     <!-- Optional JavaScript -->
