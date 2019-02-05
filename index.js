@@ -1,117 +1,141 @@
-let todos = []
-let nextId = 0
+let nextId = 0;
+
+const Storage = {
+  set: value => {
+    if (value !== null) localStorage.setItem('tasks', JSON.stringify(value));
+  },
+
+  get: () => {
+    const data = JSON.parse(localStorage.getItem('tasks'));
+    if (data !== null) return data;
+    else return [];
+  }
+};
 
 const todoList = {
-  displayTodo: () => {
-    let todosUl = document.querySelector('ul')
-    todosUl.innerHTML = ''
+  data: Storage.get(),
 
-    todos.forEach(todo => {
-      let todoLi = document.createElement('li')
+  displayTodo: (data = todoList.data) => {
+    let todosUl = document.getElementById('todos');
+    todosUl.innerHTML = '';
 
-      if (todo.completed) {
-        todoLi.textContent = `ID: ${todo.id} - ${todo.todoText} [v]`
+    todoList.data.forEach(todo => {
+      let todoLi = document.createElement('div');
+      todoLi.setAttribute('class', 'tasks');
+
+      if (todo.completed === true) {
+        todoLi.innerHTML = `${
+          todo.todoText
+        } <button class="btn btn-btn-danger" onclick="todoList.deleteTodo(${
+          todo.id
+        })">X</button>`;
       } else {
-        todoLi.textContent = `ID: ${todo.id} - ${todo.todoText} [x]`
+        todoLi.innerHTML = `${
+          todo.todoText
+        } <button class="btn btn-danger" onclick="todoList.deleteTodo(${
+          todo.id
+        })">X</button>`;
       }
 
-      todosUl.appendChild(todoLi)
-    })
+      todosUl.appendChild(todoLi);
+    });
   },
 
   addTodo: todoText => {
-    event.preventDefault()
+    event.preventDefault();
 
-    todos.push({
+    todoList.data.push({
       id: nextId,
       todoText: todoText,
       completed: false
-    })
+    });
 
-    nextId++
+    Storage.set(todoList.data);
+
+    nextId++;
   },
 
   deleteTodo: idNumber => {
-    const deleted = todos.filter(todo => {
-      return todo.id !== idNumber
-    })
+    const deleted = todoList.data.filter(todo => {
+      return todo.id !== idNumber;
+    });
 
-    todos = deleted
+    todoList.data = deleted;
+    Storage.set(todoList.data);
+
+    todoList.displayTodo();
   },
 
   editTodo: (idNumber, todoText) => {
-    todos.map(todo => {
+    todoList.data.map(todo => {
       if (todo.id === idNumber) {
-        return (todo.todoText = todoText)
+        return (todo.todoText = todoText);
       } else {
-        return todos
+        return todoList.data;
       }
-    })
+    });
+
+    Storage.set(todoList.data);
+    todoList.displayTodo();
   },
 
-  // Not Implemented on DOM yet
   toggleTodo: idNumber => {
-    const toggleStatus = todos.map(todo => {
+    const toggleStatus = todoList.data.map(todo => {
       if (todo.id === idNumber) {
-        return (todo.completed = !todo.completed)
+        return (todo.completed = !todo.completed);
       } else {
-        return todos
+        return todos;
       }
-    })
+    });
+
+    Storage.set(todoList.data);
   },
 
-  // Not Implemented on DOM yet
   toggleAll: () => {
-    const totalTodo = todos.length
-    let totalCompleteTodo = 0
+    const totalTodo = todoList.data.length;
+    let totalCompleteTodo = 0;
 
-    todos.forEach(todo => {
+    todoList.data.forEach(todo => {
       if (todo.completed === true) {
-        totalCompleteTodo++
+        totalCompleteTodo++;
       }
-    })
+    });
 
     if (totalCompleteTodo === totalTodo) {
-      todos.map(todo => {
-        return (todo.completed = false)
-      })
+      todoList.data.map(todo => {
+        return (todo.completed = false);
+      });
     } else {
-      todos.map(todo => {
-        return (todo.completed = true)
-      })
+      todoList.data.map(todo => {
+        return (todo.completed = true);
+      });
     }
+
+    Storage.set(todoList.data);
   }
-}
+};
 
 const handlers = {
   toggleAll: () => {
-    todoList.toggleAll()
-    todoList.displayTodo()
+    todoList.toggleAll();
+    todoList.displayTodo();
   },
 
   addTodo: () => {
-    let addTodoText = document.getElementById('addTodoText')
-    todoList.addTodo(addTodoText.value)
+    let addTodoText = document.getElementById('addTodoText');
+    todoList.addTodo(addTodoText.value);
 
-    addTodoText.value = ''
-    todoList.displayTodo()
+    addTodoText.value = '';
+    todoList.displayTodo();
   },
 
   editTodo: () => {
-    let inputTodoId = document.getElementById('inputTodoId')
-    let inputNewTodo = document.getElementById('inputNewTodo')
-    todoList.editTodo(inputTodoId.valueAsNumber, inputNewTodo.value)
+    let inputTodoId = document.getElementById('inputTodoId');
+    let inputNewTodo = document.getElementById('inputNewTodo');
+    todoList.editTodo(inputTodoId.valueAsNumber, inputNewTodo.value);
 
-    inputTodoId.value = ''
-    inputNewTodo = ''
-    todoList.displayTodo()
-  },
-
-  deleteTodo: () => {
-    let inputDeleteTodoId = document.getElementById('inputDeleteTodoId')
-    todoList.deleteTodo(inputDeleteTodoId.valueAsNumber)
-
-    inputDeleteTodoId = ''
-    todoList.displayTodo()
+    inputTodoId.value = '';
+    inputNewTodo = '';
+    todoList.displayTodo();
   }
-}
+};

@@ -41,10 +41,7 @@ body {
 /* footer */
 .footer {
   text-align: center;
-}
-
-.footer-image {
-  z-index: -1;
+  background-color: black;
 }
 
 .footer p {
