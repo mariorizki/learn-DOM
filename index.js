@@ -24,17 +24,21 @@ const todoList = {
       todoLi.setAttribute('class', 'tasks');
 
       if (todo.completed === true) {
-        todoLi.innerHTML = `${
+        todoLi.innerHTML = `<span class="completed">${
           todo.todoText
-        } <button class="btn btn-btn-danger" onclick="todoList.deleteTodo(${
+        }</span> <button class="btn btn-danger" onclick="todoList.deleteTodo(${
           todo.id
-        })">X</button>`;
+        })">X</button> <button onclick="todoList.editTodo(${
+          todo.id
+        })" class="btn btn-warning">edit</button>`;
       } else {
         todoLi.innerHTML = `${
           todo.todoText
         } <button class="btn btn-danger" onclick="todoList.deleteTodo(${
           todo.id
-        })">X</button>`;
+        })">X</button> <button onclick="todoList.editTodo(${
+          todo.id
+        })" class="btn btn-warning">edit</button>`;
       }
 
       todosUl.appendChild(todoLi);
@@ -42,17 +46,22 @@ const todoList = {
   },
 
   addTodo: todoText => {
-    event.preventDefault();
+    todoText.preventDefault();
 
-    todoList.data.push({
+    const newTodo = {
       id: nextId,
-      todoText: todoText,
+      todoText: document.getElementById('addTodoText').value,
       completed: false
-    });
+    };
 
-    Storage.set(todoList.data);
-
-    nextId++;
+    if (newTodo !== '') {
+      // Push new data
+      todoList.data.push(newTodo);
+      Storage.set(todoList.data);
+      document.getElementById('addTodoText').value = '';
+      nextId++;
+      todoList.displayTodo();
+    }
   },
 
   deleteTodo: idNumber => {
@@ -66,17 +75,22 @@ const todoList = {
     todoList.displayTodo();
   },
 
-  editTodo: (idNumber, todoText) => {
-    todoList.data.map(todo => {
-      if (todo.id === idNumber) {
-        return (todo.todoText = todoText);
-      } else {
-        return todoList.data;
-      }
-    });
+  editTodo: idNumber => {
+    const textInput = prompt('Edit task to...');
 
-    Storage.set(todoList.data);
-    todoList.displayTodo();
+    if (textInput !== null) {
+      const edited = todoList.data.map(todo => {
+        if (todo.id === id) {
+          todo.todoText = textInput;
+        }
+        return todo;
+      });
+
+      todoList.data = edited;
+
+      Storage.set(todoList.data);
+      todoList.displayTodo();
+    }
   },
 
   toggleTodo: idNumber => {
@@ -84,11 +98,12 @@ const todoList = {
       if (todo.id === idNumber) {
         return (todo.completed = !todo.completed);
       } else {
-        return todos;
+        return todoList.data;
       }
     });
 
     Storage.set(todoList.data);
+    todoList.displayTodo();
   },
 
   toggleAll: () => {
@@ -112,30 +127,8 @@ const todoList = {
     }
 
     Storage.set(todoList.data);
+    todoList.data(displayTodo);
   }
 };
 
-const handlers = {
-  toggleAll: () => {
-    todoList.toggleAll();
-    todoList.displayTodo();
-  },
-
-  addTodo: () => {
-    let addTodoText = document.getElementById('addTodoText');
-    todoList.addTodo(addTodoText.value);
-
-    addTodoText.value = '';
-    todoList.displayTodo();
-  },
-
-  editTodo: () => {
-    let inputTodoId = document.getElementById('inputTodoId');
-    let inputNewTodo = document.getElementById('inputNewTodo');
-    todoList.editTodo(inputTodoId.valueAsNumber, inputNewTodo.value);
-
-    inputTodoId.value = '';
-    inputNewTodo = '';
-    todoList.displayTodo();
-  }
-};
+todoList.displayTodo();
