@@ -55,7 +55,6 @@ const todoList = {
     };
 
     if (newTodo !== '') {
-      // Push new data
       todoList.data.push(newTodo);
       Storage.set(todoList.data);
       document.getElementById('addTodoText').value = '';
@@ -71,7 +70,6 @@ const todoList = {
 
     todoList.data = deleted;
     Storage.set(todoList.data);
-
     todoList.displayTodo();
   },
 
@@ -87,7 +85,6 @@ const todoList = {
       });
 
       todoList.data = edited;
-
       Storage.set(todoList.data);
       todoList.displayTodo();
     }
