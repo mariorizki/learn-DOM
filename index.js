@@ -16,8 +16,8 @@ const todoList = {
   data: Storage.get(),
 
   displayTodo: (data = todoList.data) => {
-    const todosUl = document.getElementById('todos');
-    todosUl.innerHTML = '';
+    const todosDiv = document.getElementById('todos');
+    todosDiv.innerHTML = '';
 
     todoList.data.forEach(todo => {
       const todoLi = document.createElement('div');
@@ -41,7 +41,7 @@ const todoList = {
         })" class="btn btn-warning">edit</button>`;
       }
 
-      todosUl.appendChild(todoLi);
+      todosDiv.appendChild(todoLi);
     });
   },
 
