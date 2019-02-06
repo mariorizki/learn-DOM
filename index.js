@@ -16,11 +16,11 @@ const todoList = {
   data: Storage.get(),
 
   displayTodo: (data = todoList.data) => {
-    let todosUl = document.getElementById('todos');
+    const todosUl = document.getElementById('todos');
     todosUl.innerHTML = '';
 
     todoList.data.forEach(todo => {
-      let todoLi = document.createElement('div');
+      const todoLi = document.createElement('div');
       todoLi.setAttribute('class', 'tasks');
 
       if (todo.completed === true) {
